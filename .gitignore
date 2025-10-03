@@ -1,0 +1,63 @@
+# Общие системные и редакторные файлы:cite[3]:cite[5]
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+~$*
+
+# Директории, создаемые средой выполнения Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Файлы окружения и конфигурации с секретами
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Логи и базы данных
+*.log
+*.sqlite3
+
+# Инструменты управления зависимостями (Poetry, PDM)
+# Ссылка на официальный шаблон: https://github.com/github/gitignore/blob/main/Python.gitignore
+.pdm-build
+poetry.lock  # Раскомментируйте, если не фиксируете этот файл в репозитории
+
+# Инструменты и IDE
+.idea/
+.vscode/
+*.swp
+*.sublime-project
+*.sublime-workspace
+
+# Файлы, специфичные для ОС Windows
+[Dd]esktop.ini
+
+# Файлы, генерируемые во время выполнения (например, кэш Streamlit)
+.instance/
