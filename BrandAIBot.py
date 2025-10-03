@@ -19,13 +19,13 @@ dp = Dispatcher()
 
 @dp.message(Command("start"))
 async def start_handler(message: types.Message):
-    await message.answer("👋 Привет! Напиши название бренда, и я найду самую важную информацию.")
+    await message.answer("👋 Привет! Напиши что тебя интересует, и я найду самую важную информацию.")
 
 
 @dp.message(F.text)
 async def brand_handler(message: types.Message):
     brand = message.text.strip()
-    status_msg = await message.answer(f"🔎 Ищу информацию о бренде <b>{brand}</b>...")
+    status_msg = await message.answer(f"🔎 Ищу информацию <b>{brand}</b>...")
 
     try:
         result = await asyncio.wait_for(fetch_brand_info(brand), timeout=13)
