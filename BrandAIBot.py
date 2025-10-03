@@ -37,7 +37,7 @@ back_to_menu = ReplyKeyboardMarkup(
 
 @dp.message(Command("start"))
 async def start_handler(message: types.Message):
-    await message.answer("👋 Привет! Выбери действие:", reply_markup=main_menu)
+    await message.answer("👋 Привет! Я твой главный помощник в поиске информации. Выбери действие:", reply_markup=main_menu)
 
 
 # --- Поиск ---
