@@ -37,13 +37,13 @@ back_to_menu = ReplyKeyboardMarkup(
 
 @dp.message(Command("start"))
 async def start_handler(message: types.Message):
-    await message.answer("👋 Привет! Я твой главный помощник в поиске информации. Выбери действие:", reply_markup=main_menu)
+    await message.answer("👋 Привет! Я твой главный помощник в поиске информации 0w0. Выбери действие:", reply_markup=main_menu)
 
 
 # --- Поиск ---
 @dp.message(F.text == "🔎 Поиск")
 async def search_start(message: types.Message):
-    await message.answer("Напишите что хотите узнать, и я найду самую важную информацию.",
+    await message.answer("Напишите что хотите узнать, и я найду самую важную информацию!",
                          reply_markup=back_to_menu)
 
 
@@ -52,8 +52,8 @@ async def search_start(message: types.Message):
 async def project_info(message: types.Message):
     text = (
         "✨ <b>Brend AI</b> ✨\n\n"
-        "ИИ-ассистент который поможет вам узнать информацию.\n"
-        "📖 Вы узнаете историю, важные факты и отличия.\n"
+        "ИИ-ассистент который поможет вам узнать всю важную и нужную информацию.\n"
+        "📖 Вы узнаете историю, важные факты и отличия между вещами.\n"
         "🧠 Если хотите узнать что-то новое и полезное — вам сюда!"
     )
     await message.answer(text, reply_markup=back_to_menu)
@@ -62,7 +62,7 @@ async def project_info(message: types.Message):
 # --- Кнопка "Главное меню" ---
 @dp.message(F.text == "🏠 Главное меню")
 async def return_to_menu(message: types.Message):
-    await message.answer("👋 Вы снова в главном меню:", reply_markup=main_menu)
+    await message.answer("👋 Вы снова в главном меню!", reply_markup=main_menu)
 
 
 # --- Обработка поиска брендов ---
@@ -72,7 +72,7 @@ async def brand_handler(message: types.Message):
 
     # Если это служебная кнопка
     if brand == "🏠 Главное меню":
-        await message.answer("👋 Вы снова в главном меню:", reply_markup=main_menu)
+        await message.answer("👋 Вы снова в главном меню!", reply_markup=main_menu)
         return
 
     status_msg = await message.answer(f"🔎 Ищу информацию о <b>{brand}</b>...")
