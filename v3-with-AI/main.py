@@ -4,6 +4,8 @@ import asyncio
 import json
 from aiogram import Bot, Dispatcher, types
 from aiogram.filters import Command
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, WebAppInfo
+from aiogram.utils.keyboard import ReplyKeyboardBuilder
 
 # Настройки
 API_TOKEN = "8171207811:AAGPMC93yKCM_KOmzJ5cr0WxgLJs3ycO5MQ"
@@ -18,6 +20,22 @@ logger = logging.getLogger(__name__)
 # Инициализация бота
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher()
+
+# Создаем главное меню
+def get_main_menu() -> ReplyKeyboardMarkup:
+    builder = ReplyKeyboardBuilder()
+    builder.add(
+        KeyboardButton(text="ℹ️ Информация для проекта"),
+        KeyboardButton(text="🔍 Поиск")
+    )
+    builder.adjust(2)
+    return builder.as_markup(resize_keyboard=True)
+
+# Создаем клавиатуру с кнопкой "Главное меню"
+def get_back_to_menu_keyboard() -> ReplyKeyboardMarkup:
+    builder = ReplyKeyboardBuilder()
+    builder.add(KeyboardButton(text="🏠 Главное меню"))
+    return builder.as_markup(resize_keyboard=True)
 
 async def ask_yandex_gpt(question: str) -> str:
     """
@@ -77,14 +95,23 @@ async def start_handler(message: types.Message):
     """
     welcome_text = (
         "👋 Привет! Я бот с интеграцией Yandex GPT.\n\n"
-        "Просто напишите любой вопрос или сообщение, и я обращусь к Yandex GPT для получения ответа.\n\n"
-        "Примеры вопросов:\n"
-        "• Объясни квантовую физику простыми словами\n"
-        "• Напиши код на Python для сортировки списка\n"
-        "• Расскажи о искусственном интеллекте\n"
-        "• Любой другой вопрос!"
+        "Используйте кнопки меню ниже для навигации:\n\n"
+        "• ℹ️ Информация для проекта - покажу информацию о проекте\n"
+        "• 🔍 Поиск - перейду в режим поиска и ответов\n\n"
+        "Также вы можете просто написать любой вопрос!"
     )
-    await message.answer(welcome_text)
+    await message.answer(welcome_text, reply_markup=get_main_menu())
+
+@dp.message(Command("menu"))
+async def menu_handler(message: types.Message):
+    """
+    Обработчик команды /menu - показывает главное меню
+    """
+    welcome_back_text = (
+        "🏠 Добро пожаловать в главное меню!\n\n"
+        "Выберите нужный раздел:"
+    )
+    await message.answer(welcome_back_text, reply_markup=get_main_menu())
 
 @dp.message(Command("help"))
 async def help_handler(message: types.Message):
@@ -96,11 +123,16 @@ async def help_handler(message: types.Message):
         "Этот бот использует Yandex GPT для ответов на ваши вопросы.\n\n"
         "<b>Доступные команды:</b>\n"
         "/start - начать работу\n"
+        "/menu - показать главное меню\n"
         "/help - показать эту справку\n"
         "/status - проверить статус подключения\n\n"
-        "Просто напишите любой текст, и бот ответит!"
+        "<b>Кнопки меню:</b>\n"
+        "• ℹ️ Информация для проекта - информация о проекте\n"
+        "• 🔍 Поиск - режим поиска\n"
+        "• 🏠 Главное меню - вернуться в главное меню\n\n"
+        "Также просто напишите любой текст, и бот ответит!"
     )
-    await message.answer(help_text, parse_mode="HTML")
+    await message.answer(help_text, parse_mode="HTML", reply_markup=get_main_menu())
 
 @dp.message(Command("status"))
 async def status_handler(message: types.Message):
@@ -122,6 +154,60 @@ async def status_handler(message: types.Message):
     else:
         await status_msg.edit_text(f"❌ Проблема с подключением:\n{test_result}")
 
+@dp.message(lambda message: message.text == "ℹ️ Информация для проекта")
+async def project_info_handler(message: types.Message):
+    """
+    Обработчик кнопки "Информация для проекта"
+    """
+    project_info = (
+        "📋 <b>Информация о проекте</b>\n\n"
+        "🤖 <b>Название:</b> Yandex GPT AI Ассистент\n"
+        "📝 <b>Описание:</b> Умный бот-ассистент с интеграцией Yandex GPT\n"
+        "🔧 <b>Технологии:</b>\n"
+        "   • Python 3.8+\n"
+        "   • Aiogram 3.x (асинхронный фреймворк для Telegram)\n"
+        "   • Yandex GPT API\n"
+        "   • aiohttp для асинхронных HTTP запросов\n\n"
+        "⚡ <b>Возможности:</b>\n"
+        "   • Интеллектуальные ответы на вопросы\n"
+        "   • Поиск информации\n"
+        "   • Поддержка диалога\n"
+        "   • Умное контекстное понимание\n\n"
+        "👨‍💻 <b>Разработчик:</b> Fram1se\n\n"
+        "Для поиска информации нажмите кнопку <b>🔍 Поиск</b> или просто напишите свой вопрос!"
+    )
+    await message.answer(project_info, parse_mode="HTML", reply_markup=get_back_to_menu_keyboard())
+
+@dp.message(lambda message: message.text == "🔍 Поиск")
+async def search_handler(message: types.Message):
+    """
+    Обработчик кнопки "Поиск"
+    """
+    search_info = (
+        "🔍 <b>Режим поиска активирован!</b>\n\n"
+        "Теперь вы можете задавать любые вопросы:\n\n"
+        "• Научные вопросы\n"
+        "• Технические консультации\n"
+        "• Помощь с кодом\n"
+        "• Образовательные темы\n"
+        "• И многое другое!\n\n"
+        "Просто напишите ваш вопрос ниже 👇\n\n"
+        "Чтобы вернуться в меню, используйте кнопку <b>🏠 Главное меню</b>"
+    )
+    await message.answer(search_info, parse_mode="HTML", reply_markup=get_back_to_menu_keyboard())
+
+@dp.message(lambda message: message.text == "🏠 Главное меню")
+async def back_to_menu_handler(message: types.Message):
+    """
+    Обработчик кнопки "Главное меню"
+    """
+    welcome_back_text = (
+        "🏠 Добро пожаловать в главное меню!\n\n"
+        "Рад снова вас видеть! 😊\n\n"
+        "Выберите нужный раздел:"
+    )
+    await message.answer(welcome_back_text, reply_markup=get_main_menu())
+
 @dp.message()
 async def message_handler(message: types.Message):
     """
@@ -133,17 +219,19 @@ async def message_handler(message: types.Message):
     if not user_text:
         return
     
-    # Отправляем статус "печатает"
-    await bot.send_chat_action(message.chat.id, "typing")
-    
-    # Отправляем сообщение о обработке
-    status_msg = await message.answer("🤔 Думаю...")
-    
-    # Получаем ответ от Yandex GPT
-    response = await ask_yandex_gpt(user_text)
-    
-    # Отправляем ответ
-    await status_msg.edit_text(response)
+    # Если сообщение не является командой меню, обрабатываем как запрос к GPT
+    if user_text not in ["ℹ️ Информация для проекта", "🔍 Поиск", "🏠 Главное меню"]:
+        # Отправляем статус "печатает"
+        await bot.send_chat_action(message.chat.id, "typing")
+        
+        # Отправляем сообщение о обработке
+        status_msg = await message.answer("🤔 Думаю...")
+        
+        # Получаем ответ от Yandex GPT
+        response = await ask_yandex_gpt(user_text)
+        
+        # Отправляем ответ
+        await status_msg.edit_text(response)
 
 async def main():
     """
