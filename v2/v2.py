@@ -12,7 +12,7 @@ from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 # --- Импорт базы данных ---
 from database import db
 
-API_TOKEN = "8171207811:AAGPMC93yKCM_KOmzJ5cr0WxgLJs3ycO5MQ"
+API_TOKEN = "TGKey"
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

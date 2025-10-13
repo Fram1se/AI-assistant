@@ -10,9 +10,9 @@ from collections import defaultdict
 from datetime import datetime, timedelta
 
 # Настройки
-API_TOKEN = "8171207811:AAGPMC93yKCM_KOmzJ5cr0WxgLJs3ycO5MQ"
-YANDEX_API_KEY = "AQVN0-erzW4-kr4F7HrG9gqgVRm7__JJBsCceTCX"
-YANDEX_FOLDER_ID = "b1gv72v9ib7kguo2h06h"
+API_TOKEN = "TGKey"
+YANDEX_API_KEY = "YAAK"
+YANDEX_FOLDER_ID = "YAFK"
 YANDEX_GPT_URL = "https://llm.api.cloud.yandex.net/foundationModels/v1/completion"
 
 # Настройка логирования
