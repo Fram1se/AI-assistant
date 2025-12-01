@@ -25,8 +25,8 @@ dp = Dispatcher()
 
 # Хранилище истории диалогов
 user_dialogs = defaultdict(list)
-MAX_HISTORY_LENGTH = 10  # Максимальное количество сообщений в истории
-DIALOG_TIMEOUT = 3600  # Таймаут диалога в секундах (1 час)
+MAX_HISTORY_LENGTH = 20  # Максимальное количество сообщений в истории
+DIALOG_TIMEOUT = 1800  # Таймаут диалога в секундах (пол часа)
 
 # Создаем главное меню
 def get_main_menu() -> ReplyKeyboardMarkup:
